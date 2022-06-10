@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zakirkun/microservices-eco/auth/database/migrations"
 	"github.com/zakirkun/microservices-eco/auth/pkg/config"
 )
 
@@ -25,6 +26,12 @@ func init() {
 
 func main() {
 	router := config.NewGin()
+	configuration := config.New()
+	db := config.NewDatabase(configuration)
+
+	migration := migrations.New(db)
+	_ = migration.Seeder()
+
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.String(200, "Oke")
 	})
