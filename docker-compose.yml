@@ -58,7 +58,6 @@ services:
       # Enable public access
       - "traefik.http.routers.services-auth.rule=PathPrefix(`/api/auth/`)"
       - "traefik.http.services.services-auth.loadbalancer.server.port=4000"
-
     environment:
       - DB_HOST=db-postgresql
       - DB_PORT=5432
@@ -66,6 +65,7 @@ services:
       - DB_USER=syx_hack
       - DB_PASS=syx_hacker
       - DB_SSL=false
+      - JWT_KEY="H@CkMe#IfYou!Can"
     links:
       - db-postgresql
 
