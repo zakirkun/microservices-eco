@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  services-auth:
+    build: auth 
+    container_name: services-auth 
+    command: 
+      - "-serverPort"
+      - "4000"
+    networks:
+      - eco-system
+    labels: {}
+    environment:
+      - DB_HOST=db-postgresql
+      - DB_PORT=5432
+      - DB_NAME=auth_services
+      - DB_USER=syx_hack
+      - DB_PASS=syx_hacker
+      - DB_SSL=false
+    links:
+      - db-postgresql
+
+  db-postgresql: 
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=syx_hack
+      - POSTGRES_PASSWORD=syx_hacker
+      - POSTGRES_DB=auth_services
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-postgresql:/var/lib/postgresql/data
+    networks:
+      - eco-system
+
+volumes:
+  db-postgresql:
+    driver: local
+
+networks:
+  eco-system:
+    driver: bridge
+    driver_opts: 
+      com.docker.network.enable_ipv6: "false"
