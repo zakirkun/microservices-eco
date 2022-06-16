@@ -2,7 +2,7 @@ package entity
 
 import "gorm.io/gorm"
 
-type Jwt struct {
+type Jwts struct {
 	gorm.Model
 	ID           int32  `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
 	UserID       int32  `gorm:"type:int(12);not null" json:"user_id"`

@@ -19,10 +19,10 @@ func (m Migration) Seeder() error {
 	err := m.db.Migrator().CreateTable(
 		&entity.Avatars{},
 		&entity.Users{},
-		&entity.Jwt{},
+		&entity.Jwts{},
 	)
 
-	m.db.Migrator().CreateConstraint(&entity.Users{}, "Jwt")
+	m.db.Migrator().CreateConstraint(&entity.Users{}, "Jwts")
 	m.db.Migrator().CreateConstraint(&entity.Users{}, "Avatars")
 
 	return err

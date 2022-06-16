@@ -11,5 +11,5 @@ type Users struct {
 	Phone    string  `gorm:"type:varchar(100);not null" json:"phone"`
 	Address  string  `gorm:"type:varchar(225);not null" json:"address"`
 	Avatar   Avatars `gorm:"foreignkey:UserID" json:"avatar"`
-	Jwt      Jwt     `gorm:"foreignkey:UserID" json:"jwt"`
+	Jwt      Jwts    `gorm:"foreignkey:UserID" json:"jwt"`
 }

@@ -4,9 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/zakirkun/microservices-eco/auth/database/migrations"
 	"github.com/zakirkun/microservices-eco/auth/pkg/config"
 )
@@ -18,6 +19,13 @@ type ParsedFlags struct {
 
 var pf ParsedFlags
 
+var debug = func() bool {
+	isDebug := os.Getenv("APP_DEBUG")
+	debug, _ := strconv.ParseBool(isDebug)
+
+	return debug
+}
+
 func init() {
 	flag.StringVar(&pf.serverAddr, "serverAddr", "", "HTTP server network address")
 	flag.IntVar(&pf.serverPort, "serverPort", 4000, "HTTP server network port")
@@ -25,16 +33,12 @@ func init() {
 }
 
 func main() {
-	router := config.NewGin()
+	router := Router(debug())
 	configuration := config.New()
 	db := config.NewDatabase(configuration)
 
 	migration := migrations.New(db)
 	_ = migration.Seeder()
-
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.String(200, "Oke")
-	})
 
 	serverURI := fmt.Sprintf("%s:%d", pf.serverAddr, pf.serverPort)
 	s := &http.Server{
